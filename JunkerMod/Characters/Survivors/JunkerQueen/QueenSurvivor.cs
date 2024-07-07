@@ -5,6 +5,7 @@ using JunkerMod.Modules.Characters;
 using JunkerMod.Survivors.Queen.Components;
 using JunkerMod.Survivors.Queen.SkillStates;
 using JunkerMod.Survivors.Queen.SkillStates.ShotgunSkills;
+using JunkerMod.Survivors.Queen.SkillStates.KnifeSkills;
 using RoR2;
 using RoR2.Skills;
 using System;
@@ -122,9 +123,7 @@ namespace JunkerMod.Survivors.Queen
         private void AdditionalBodySetup()
         {
             AddHitboxes();
-            bodyPrefab.AddComponent<QueenHealComponent>();
-
-            bodyPrefab.GetComponent<QueenHealComponent>().Hook();
+            bodyPrefab.AddComponent<QueenHealComponent>().Hook(); //add the component and then call Hook() instantly, so it activates
         }
 
         public void AddHitboxes()
@@ -163,21 +162,8 @@ namespace JunkerMod.Survivors.Queen
             AddSpecialSkills();
         }
 
-        //skip if you don't have a passive
-        //also skip if this is your first look at skills
         private void AddPassiveSkill()
         {
-            //option 1. fake passive icon just to describe functionality we will implement elsewhere
-            /*bodyPrefab.GetComponent<SkillLocator>().passiveSkill = new SkillLocator.PassiveSkill
-            {
-                enabled = true,
-                skillNameToken = QUEEN_PREFIX + "PASSIVE_NAME",
-                skillDescriptionToken = QUEEN_PREFIX + "PASSIVE_DESCRIPTION",
-                keywordToken = "",
-                icon = assetBundle.LoadAsset<Sprite>("texPassiveIcon"),
-            };*/
-
-            //option 2. a new SkillFamily for a passive, used if you want multiple selectable passives
             GenericSkill passiveGenericSkill = Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, "PassiveSkill");
             SkillDef passiveSkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
@@ -187,44 +173,29 @@ namespace JunkerMod.Survivors.Queen
                 keywordTokens = new string[] { "KEYWORD_AGILE" },
                 skillIcon = assetBundle.LoadAsset<Sprite>("texPassiveIcon"),
 
-                //unless you're somehow activating your passive like a skill, none of the following is needed.
-                //but that's just me saying things. the tools are here at your disposal to do whatever you like with
-
-                activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveHeal.AdrenalineHealState)),
+                activationState = new SerializableEntityStateType(typeof(PassiveHeal.AdrenalineHealState)),
                 activationStateMachineName = "Heal",
-                //interruptPriority = EntityStates.InterruptPriority.Skill,
-
                 baseRechargeInterval = 0f,
-                //baseMaxStock = 1,
 
-                //rechargeStock = 1,
-                //requiredStock = 1,
-                //stockToConsume = 1,
-
-                //resetCooldownTimerOnUse = false,
-                //fullRestockOnAssign = true,
-                //dontAllowPastMaxStocks = false,
-                //mustKeyPress = false,
-                //beginSkillCooldownOnSkillEnd = false,
-
-                //isCombatSkill = true,
                 canceledFromSprinting = false,
                 cancelSprintingOnActivation = false,
-                //forceSprintDuringState = false,
             });
 
             IL.RoR2.DotController.EvaluateDotStacksForType += PassiveHeal.dotDamageHook;
 
+            var healMachine = EntityStateMachine.FindByCustomName(bodyPrefab, "Heal");
+            if (healMachine)
+            {
+                healMachine.SetNextState(new PassiveHeal.AdrenalineHealState());
+            }
+
             Skills.AddSkillsToFamily(passiveGenericSkill.skillFamily, passiveSkillDef1);
         }
 
-        //if this is your first look at skilldef creation, take a look at Secondary first
         private void AddPrimarySkills()
         {
             Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Primary);
 
-            //the primary skill is created using a constructor for a typical primary
-            //it is also a SteppedSkillDef. Custom Skilldefs are very useful for custom behaviors related to casting a skill. see ror2's different skilldefs for reference
             ReloadSkillDef primarySkillDef1 = Skills.CreateSkillDef<ReloadSkillDef>(new SkillDefInfo
                 {
                     skillName = "ShootShotgun",
@@ -263,7 +234,6 @@ namespace JunkerMod.Survivors.Queen
         {
             Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Secondary);
 
-            //here is a basic skill def with all fields accounted for
             SkillDef secondarySkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = "HenryGun",
@@ -303,10 +273,9 @@ namespace JunkerMod.Survivors.Queen
         {
             Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Utility);
 
-            //here's a skilldef of a typical movement skill.
             SkillDef utilitySkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = "HenryRoll",
+                skillName = "QueenShout",
                 skillNameToken = QUEEN_PREFIX + "UTILITY_SHOUT_NAME",
                 skillDescriptionToken = QUEEN_PREFIX + "UTILITY_SHOUT_DESCRIPTION",
                 skillIcon = assetBundle.LoadAsset<Sprite>("texUtilityIcon"),
@@ -341,10 +310,9 @@ namespace JunkerMod.Survivors.Queen
         {
             Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Special);
 
-            //a basic skill. some fields are omitted and will just have default values
             SkillDef specialSkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = "HenryBomb",
+                skillName = "QueenAxe",
                 skillNameToken = QUEEN_PREFIX + "SPECIAL_AXE_NAME",
                 skillDescriptionToken = QUEEN_PREFIX + "SPECIAL_AXE_DESCRIPTION",
                 skillIcon = assetBundle.LoadAsset<Sprite>("texSpecialIcon"),

@@ -18,7 +18,7 @@ using static JunkerMod.Survivors.Queen.SkillStates.PassiveHeal;
 
 namespace JunkerMod.Survivors.Queen.Components
 {
-    internal class QueenHealComponent : NetworkBehaviour
+    public class QueenHealComponent : NetworkBehaviour
     {
         //grabbed from https://github.com/yekoc/Risk-Of-Rain-2-Mods/blob/master/PassiveAgression/PassiveAgression/Characters/Mage/BleedPassive.cs
         private static void dotDamageHook(ILContext il)
@@ -56,17 +56,6 @@ namespace JunkerMod.Survivors.Queen.Components
         public void Start()
         {
 
-        }
-
-        public void FixedUpdate()
-        {
-
-
-            bool inRange(Vector3 origin, Vector3 target)
-            {
-                var vec = target - origin;
-                return vec.sqrMagnitude <= 2400;
-            }
         }
 
         public void Hook()

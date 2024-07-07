@@ -4,7 +4,7 @@ using RoR2;
 using RoR2.Projectile;
 using UnityEngine;
 
-namespace JunkerMod.Survivors.Queen.SkillStates
+namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
 {
     public class Knife : BaseSkillState
     {

@@ -59,11 +59,13 @@ namespace JunkerMod.Survivors.Queen.SkillStates
             public override void OnEnter()
             {
                 base.OnEnter();
+                Chat.AddMessage("Entering passive state");
                 instances.Add(this);
             }
             public override void OnExit()
             {
                 base.OnExit();
+                Chat.AddMessage("Exiting passive state");
                 instances.Remove(this);
             }
             public override InterruptPriority GetMinimumInterruptPriority()
