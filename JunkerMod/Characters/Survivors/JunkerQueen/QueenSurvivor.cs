@@ -124,6 +124,7 @@ namespace JunkerMod.Survivors.Queen
         {
             AddHitboxes();
             bodyPrefab.AddComponent<QueenHealComponent>().Hook(); //add the component and then call Hook() instantly, so it activates
+            bodyPrefab.AddComponent<QueenKnifeController>();
         }
 
         public void AddHitboxes()
@@ -181,12 +182,10 @@ namespace JunkerMod.Survivors.Queen
                 cancelSprintingOnActivation = false,
             });
 
-            IL.RoR2.DotController.EvaluateDotStacksForType += PassiveHeal.dotDamageHook;
-
             var healMachine = EntityStateMachine.FindByCustomName(bodyPrefab, "Heal");
             if (healMachine)
             {
-                healMachine.SetNextState(new PassiveHeal.AdrenalineHealState());
+                healMachine.initialStateType = new SerializableEntityStateType(typeof(PassiveHeal.AdrenalineHealState));
             }
 
             Skills.AddSkillsToFamily(passiveGenericSkill.skillFamily, passiveSkillDef1);
@@ -257,7 +256,7 @@ namespace JunkerMod.Survivors.Queen
                 fullRestockOnAssign = true,
                 dontAllowPastMaxStocks = false,
                 mustKeyPress = false,
-                beginSkillCooldownOnSkillEnd = false,
+                beginSkillCooldownOnSkillEnd = true,
 
                 isCombatSkill = true,
                 canceledFromSprinting = false,

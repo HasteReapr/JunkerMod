@@ -1,5 +1,6 @@
 ﻿using EntityStates;
 using JunkerMod.Survivors.Queen;
+using JunkerMod.Survivors.Queen.Components;
 using RoR2;
 using RoR2.Projectile;
 using UnityEngine;
@@ -19,34 +20,16 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
         private float fireTime;
         private float duration = 1f;
         private Ray aimRay;
+        private QueenKnifeController knifeCTRL;
 
         public override void OnEnter()
-        {/*
-            projectilePrefab = QueenAssets.queenKnife;
-            //base.effectPrefab = Modules.Assets.SomeMuzzleEffect;
-            //targetmuzzle = "muzzleThrow"
-
-            attackSoundString = "HenryBombThrow";
-
-            baseDuration = BaseDuration;
-            baseDelayBeforeFiringProjectile = BaseDelayDuration;
-
-            damageCoefficient = DamageCoefficient;
-            //proc coefficient is set on the components of the projectile prefab
-            force = 80f;
-
-            //base.projectilePitchBonus = 0;
-            //base.minSpread = 0;
-            //base.maxSpread = 0;
-
-            recoilAmplitude = 0.1f;
-            bloom = 10;
-            */
+        {
             aimRay = GetAimRay();
             base.OnEnter();
             PlayAnimation("LeftArm, Override", "ShootGun", "ShootGun.playbackRate", 1.8f);
             duration = baseDuration / attackSpeedStat;
             fireTime = firePercentTime * duration;
+            knifeCTRL = gameObject.GetComponent<QueenKnifeController>();
         }
 
         private void Shoot()
@@ -64,7 +47,7 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
                     rotation = Util.QuaternionSafeLookRotation(aimRay.direction),
                     projectilePrefab = QueenAssets.queenKnife,
                     speedOverride = 128,
-                    //damageTypeOverride = characterBody.HasBuff(Modules.Buffs.assassinDrugsBuff) ? (DamageType?)Modules.Projectiles.poisonDmgType : (DamageType?)Modules.Projectiles.poisonDmgType,
+                    damageTypeOverride = DamageType.BleedOnHit,
                 };
                 ProjectileManager.instance.FireProjectile(info);
             }
@@ -74,13 +57,20 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
         {
             base.FixedUpdate();
 
+            // if we press our utility button again, recall the knife.
+            if (inputBank.skill2.justPressed)
+            {
+                gameObject.BroadcastMessage("KnifeComethToMe");
+            }
+
             if (fixedAge >= fireTime)
             {
                 Shoot();
             }
 
-            if (fixedAge >= duration && isAuthority)
+            if (fixedAge >= duration && isAuthority && knifeCTRL.knifeReturned)
             {
+                gameObject.BroadcastMessage("KnifeCTRLReset");
                 outer.SetNextStateToMain();
                 return;
             }

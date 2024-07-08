@@ -3,6 +3,7 @@ using UnityEngine;
 using JunkerMod.Modules;
 using System;
 using RoR2.Projectile;
+using JunkerMod.Survivors.Queen.Components;
 
 namespace JunkerMod.Survivors.Queen
 {
@@ -74,6 +75,7 @@ namespace JunkerMod.Survivors.Queen
             Content.AddProjectilePrefab(bombProjectilePrefab);
 
             queenKnife = _assetBundle.LoadAsset<GameObject>("QueenKnife");
+            queenKnife.AddComponent<QueenKnifeComponent>();
             Content.AddProjectilePrefab(queenKnife);
         }
 

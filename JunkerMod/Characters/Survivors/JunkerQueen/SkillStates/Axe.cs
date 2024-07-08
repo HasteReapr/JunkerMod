@@ -11,7 +11,7 @@ namespace JunkerMod.Survivors.Queen.SkillStates
         {
             hitboxGroupName = "SwordGroup";
 
-            damageType = DamageType.Generic;
+            damageType = DamageType.BleedOnHit;
             damageCoefficient = QueenStaticValues.axeDamageCoefficient;
             procCoefficient = 1f;
             pushForce = 300f;

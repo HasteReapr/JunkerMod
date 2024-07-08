@@ -33,7 +33,7 @@ namespace JunkerMod.Survivors.Queen.SkillStates
             animator.SetBool("inCombat", true);
             GetModelAnimator().SetFloat("ThrowKnife.playbackRate", attackSpeedStat);
 
-            PlayCrossfade("Gesture, Override", "ThrowBall", "ThrowKnife.playbackRate", duration, 0.1f);
+            //PlayCrossfade("Gesture, Override", "ThrowBall", "ThrowKnife.playbackRate", duration, 0.1f);
         }
 
         public override void OnExit()
