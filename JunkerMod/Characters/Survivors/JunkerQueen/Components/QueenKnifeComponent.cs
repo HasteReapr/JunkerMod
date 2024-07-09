@@ -3,6 +3,9 @@ using RoR2.Projectile;
 using Unity;
 using UnityEngine;
 using UnityEngine.Networking;
+using JunkerMod.Survivors.Queen.SkillStates.KnifeSkills;
+using JunkerMod.Survivors.Queen;
+using EntityStates;
 
 namespace JunkerMod.Survivors.Queen.Components
 {
@@ -14,10 +17,18 @@ namespace JunkerMod.Survivors.Queen.Components
         private bool returnKnife = false;
         private float stuckTime = 0;
         GameObject parent;
+        EntityStateMachine parentESM;
 
         public void Start()
         {
             parent = base.GetComponent<ProjectileController>().owner;
+
+            // Get the characters EnitityStateMachine, then get the state, so we can directly modify the state variables
+            parentESM = parent.GetComponent<EntityStateMachine>();
+            if(parentESM.state is Knife knifeState)
+            {
+                knifeState.knifeReturned = false;
+            }
         }
 
         public void FixedUpdate()
@@ -41,13 +52,14 @@ namespace JunkerMod.Survivors.Queen.Components
 
             if (returnKnife && hasStuck)
             {
+                Chat.AddMessage("Knife is returning.");
                 Recall();
             }
         }
 
         //move our velocity to the player
         private void Recall()
-        { 
+        {
             Vector3 returnPos = parent.transform.position;
             if(Vector3.Distance(returnPos, base.transform.position) > 0.3f)
             {
@@ -55,18 +67,27 @@ namespace JunkerMod.Survivors.Queen.Components
             }
             else
             {
+                if (parentESM.state is Knife knifeState)
+                {
+                    knifeState.knifeReturned = false;
+                }
                 Destroy(this.gameObject);
             }
         }
 
         public void OnDestroy()
         {
-            gameObject.BroadcastMessage("KnifeHasReturnith");
+            if (parentESM.state is Knife knifeState)
+            {
+                knifeState.knifeReturned = false;
+            }
+            //BroadcastMessage("KnifeHasReturnith");
         }
 
         //this overrides the timer and makes the knife instantly return
         public void KnifeComethToMe()
         {
+            Chat.AddMessage("Knife receieved return call.");
             hasStuck = true;
             returnKnife = true;
         }

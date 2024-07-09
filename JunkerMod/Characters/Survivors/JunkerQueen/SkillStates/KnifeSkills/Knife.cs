@@ -12,15 +12,14 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
         public static float baseDuration = 0.65f;
         //delays for projectiles feel absolute ass so only do this if you know what you're doing, otherwise it's best to keep it at 0
         public static float BaseDelayDuration = 0.0f;
-
         public static float DamageCoefficient = QueenStaticValues.knifeDamageCoefficient;
 
+        public bool knifeReturned = false;
         private bool hasFired = false;
         private float firePercentTime = 0.0f;
         private float fireTime;
         private float duration = 1f;
         private Ray aimRay;
-        private QueenKnifeController knifeCTRL;
 
         public override void OnEnter()
         {
@@ -29,7 +28,7 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
             PlayAnimation("LeftArm, Override", "ShootGun", "ShootGun.playbackRate", 1.8f);
             duration = baseDuration / attackSpeedStat;
             fireTime = firePercentTime * duration;
-            knifeCTRL = gameObject.GetComponent<QueenKnifeController>();
+            knifeReturned = false;
         }
 
         private void Shoot()
@@ -58,8 +57,9 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
             base.FixedUpdate();
 
             // if we press our utility button again, recall the knife.
-            if (inputBank.skill2.justPressed)
+            if (inputBank.skill2.justPressed && fixedAge >= 0.2f)
             {
+                Chat.AddMessage("Knife return call");
                 gameObject.BroadcastMessage("KnifeComethToMe");
             }
 
@@ -68,9 +68,8 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
                 Shoot();
             }
 
-            if (fixedAge >= duration && isAuthority && knifeCTRL.knifeReturned)
+            if (fixedAge >= duration && isAuthority && knifeReturned)
             {
-                gameObject.BroadcastMessage("KnifeCTRLReset");
                 outer.SetNextStateToMain();
                 return;
             }

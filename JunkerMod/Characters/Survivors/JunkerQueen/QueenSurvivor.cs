@@ -124,7 +124,7 @@ namespace JunkerMod.Survivors.Queen
         {
             AddHitboxes();
             bodyPrefab.AddComponent<QueenHealComponent>().Hook(); //add the component and then call Hook() instantly, so it activates
-            bodyPrefab.AddComponent<QueenKnifeController>();
+            //bodyPrefab.AddComponent<QueenKnifeController>();
         }
 
         public void AddHitboxes()
