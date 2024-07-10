@@ -72,9 +72,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2440050059416570487}
   - component: {fileID: 7128244109878727124}
-  - component: {fileID: 5398304455282225059}
   m_Layer: 14
-  m_Name: projHitbox
+  m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,19 +105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a63dc2c00bc45234bab375db0c723d96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &5398304455282225059
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 576178646367678430}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1179513177011710944
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,8 +126,9 @@ GameObject:
   - component: {fileID: 1179513177011710957}
   - component: {fileID: 1179513177011710958}
   - component: {fileID: 1179513177011710959}
-  - component: {fileID: 5910569152232065824}
-  - component: {fileID: 7608724047799173794}
+  - component: {fileID: 7421286695364990047}
+  - component: {fileID: 4794691317928612455}
+  - component: {fileID: 5684034679921800403}
   m_Layer: 14
   m_Name: QueenKnife
   m_TagString: Untagged
@@ -420,7 +407,22 @@ MonoBehaviour:
   m_Script: {fileID: 733712478, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5910569152232065824
+--- !u!114 &7421286695364990047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179513177011710944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50213d3126f9b2a45ae3b0a558547f80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groupName: 
+  hitBoxes:
+  - {fileID: 7128244109878727124}
+--- !u!114 &4794691317928612455
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -432,10 +434,10 @@ MonoBehaviour:
   m_Script: {fileID: -1294804675, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groupName: knifeHitbox
+  groupName: 
   hitBoxes:
   - {fileID: 0}
---- !u!114 &7608724047799173794
+--- !u!114 &5684034679921800403
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -447,15 +449,15 @@ MonoBehaviour:
   m_Script: {fileID: -899414464, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageCoefficient: 1
+  damageCoefficient: 2.5
   impactEffect: {fileID: 0}
   forceVector: {x: 0, y: 0, z: 0}
   overlapProcCoefficient: 1
-  maximumOverlapTargets: 100
+  maximumOverlapTargets: 1
   onServerHit:
     m_PersistentCalls:
       m_Calls: []
-  fireFrequency: 60
+  fireFrequency: 0
   resetInterval: -1
 --- !u!1 &2787800336571627127
 GameObject:

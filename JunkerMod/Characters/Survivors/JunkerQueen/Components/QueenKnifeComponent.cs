@@ -12,10 +12,12 @@ namespace JunkerMod.Survivors.Queen.Components
     public class QueenKnifeComponent : NetworkBehaviour
     {
         private const float MAX_STICK_TIME = 3.0f;
-        private const float SPEED = 90;
-        private bool hasStuck = false;
-        private bool returnKnife = false;
-        private float stuckTime = 0;
+        private const float SPEED = 128;
+
+        public bool hasStuck = false;
+        public bool returnKnife = false;
+        public float stuckTime = 0;
+        private GameObject stuckVictim;
         GameObject parent;
         EntityStateMachine parentESM;
 
@@ -24,10 +26,11 @@ namespace JunkerMod.Survivors.Queen.Components
             parent = base.GetComponent<ProjectileController>().owner;
 
             // Get the characters EnitityStateMachine, then get the state, so we can directly modify the state variables
-            parentESM = parent.GetComponent<EntityStateMachine>();
+            parentESM = EntityStateMachine.FindByCustomName(parent, "Weapon2");
             if(parentESM.state is Knife knifeState)
             {
                 knifeState.knifeReturned = false;
+                knifeState.knifeProjectile = this.gameObject;
             }
         }
 
@@ -37,6 +40,11 @@ namespace JunkerMod.Survivors.Queen.Components
             if (hasStuck && stuckTime <= MAX_STICK_TIME)
             {
                 stuckTime += Time.fixedDeltaTime;
+                //if we have server authority, we grab the victim gameobject
+                if (hasAuthority)
+                {
+                    stuckVictim = base.GetComponent<ProjectileStickOnImpact>().victim;
+                }
             }
 
             // weve counted up enough, time to start returning
@@ -52,7 +60,6 @@ namespace JunkerMod.Survivors.Queen.Components
 
             if (returnKnife && hasStuck)
             {
-                Chat.AddMessage("Knife is returning.");
                 Recall();
             }
         }
@@ -61,35 +68,46 @@ namespace JunkerMod.Survivors.Queen.Components
         private void Recall()
         {
             Vector3 returnPos = parent.transform.position;
-            if(Vector3.Distance(returnPos, base.transform.position) > 0.3f)
+            if(Vector3.Distance(returnPos, base.transform.position) > 1f)
             {
                 base.transform.position += (returnPos - base.transform.position).normalized * SPEED * Time.deltaTime;
+                // we also drag the victim along with the knife
+                if (stuckVictim) DragVictim();
             }
             else
             {
                 if (parentESM.state is Knife knifeState)
                 {
-                    knifeState.knifeReturned = false;
+                    knifeState.knifeReturned = true;
                 }
                 Destroy(this.gameObject);
             }
+        }
+
+        private void DragVictim()
+        {
+            //if the stuckVictim doesn't exist, escape out of this.
+            if (!stuckVictim) return;
+
+            stuckVictim.GetComponent<EntityStateMachine>().enabled = false;
+            Vector3 dragPos = base.transform.position;
+            stuckVictim.transform.position += (dragPos - stuckVictim.transform.position).normalized * SPEED * Time.deltaTime;
+        }
+
+        private void FreeVictim()
+        {
+            stuckVictim.GetComponent<EntityStateMachine>().enabled = true;
+            stuckVictim.GetComponent<EntityStateMachine>().SetNextStateToMain();
         }
 
         public void OnDestroy()
         {
             if (parentESM.state is Knife knifeState)
             {
-                knifeState.knifeReturned = false;
+                knifeState.knifeReturned = true;
             }
+            if (stuckVictim) FreeVictim();
             //BroadcastMessage("KnifeHasReturnith");
-        }
-
-        //this overrides the timer and makes the knife instantly return
-        public void KnifeComethToMe()
-        {
-            Chat.AddMessage("Knife receieved return call.");
-            hasStuck = true;
-            returnKnife = true;
         }
 
         //this method gets activated when the knife sticks, and will set the knife timer to comeback

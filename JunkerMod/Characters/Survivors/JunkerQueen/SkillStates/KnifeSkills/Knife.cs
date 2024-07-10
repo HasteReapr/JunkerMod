@@ -15,6 +15,7 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
         public static float DamageCoefficient = QueenStaticValues.knifeDamageCoefficient;
 
         public bool knifeReturned = false;
+        public GameObject knifeProjectile;
         private bool hasFired = false;
         private float firePercentTime = 0.0f;
         private float fireTime;
@@ -57,13 +58,16 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
             base.FixedUpdate();
 
             // if we press our utility button again, recall the knife.
-            if (inputBank.skill2.justPressed && fixedAge >= 0.2f)
+            if (inputBank.skill2.justPressed && fixedAge >= 0.2f && hasFired && isAuthority)
             {
-                Chat.AddMessage("Knife return call");
-                gameObject.BroadcastMessage("KnifeComethToMe");
+                //gameObject.BroadcastMessage("KnifeComethToMe");
+                knifeProjectile.GetComponent<QueenKnifeComponent>().hasStuck = true;
+                knifeProjectile.GetComponent<QueenKnifeComponent>().returnKnife = true;
+                knifeProjectile.GetComponent<QueenKnifeComponent>().stuckTime = 5;
+                knifeProjectile.gameObject.layer = 13; //13 is debris, 14 is projectile.
             }
 
-            if (fixedAge >= fireTime)
+            if (fixedAge >= fireTime && !hasFired)
             {
                 Shoot();
             }
