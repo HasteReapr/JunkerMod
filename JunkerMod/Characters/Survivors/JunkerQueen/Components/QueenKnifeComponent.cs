@@ -17,8 +17,9 @@ namespace JunkerMod.Survivors.Queen.Components
         public bool hasStuck = false;
         public bool returnKnife = false;
         public float stuckTime = 0;
+        public GameObject parent;
+
         private GameObject stuckVictim;
-        GameObject parent;
         EntityStateMachine parentESM;
 
         public void Start()

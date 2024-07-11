@@ -57,13 +57,16 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
         [Command]
         public void YoinkKnife()
         {
-            YoinkithKnifeth();
+            if (knifeProjectile.GetComponent<QueenKnifeComponent>().parent == this.gameObject)
+            {
+                knifeProjectile.GetComponent<QueenKnifeComponent>().PrematureCall();
+            }
         }
 
         [ClientRpc]
         public void YoinkithKnifeth()
         {
-            knifeProjectile.GetComponent<QueenKnifeComponent>().PrematureCall();
+            YoinkKnife();
         }
 
         public override void FixedUpdate()
@@ -71,12 +74,12 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
             base.FixedUpdate();
 
             // if we press our button again, recall the knife.
-            if (inputBank.skill2.justPressed && fixedAge >= 0.2f && hasFired && NetworkServer.active)
+            if (inputBank.skill2.justPressed && fixedAge >= 0.2f && hasFired && isAuthority)
             {
-                YoinkKnife();
+                YoinkithKnifeth();
             }
 
-            if (fixedAge >= fireTime && !hasFired)
+            if (fixedAge >= fireTime && !hasFired && isAuthority)
             {
                 Shoot();
             }
