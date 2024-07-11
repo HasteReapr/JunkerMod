@@ -31,6 +31,9 @@ namespace JunkerMod
 
         void Awake()
         {
+            //DELETE BEFORE RELEASE
+            On.RoR2.Networking.NetworkManagerSystemSteam.OnClientConnect += (s, u, t) => { };
+
             instance = this;
 
             //easy to use logger

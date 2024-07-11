@@ -13,7 +13,7 @@ namespace JunkerMod.Survivors.Queen.SkillStates.ShotgunSkills
         //delay on firing is usually ass-feeling. only set this if you know what you're doing
         public static float firePercentTime = 0.0f;
         public static float force = 800/QueenStaticValues.scatterPelletCount;
-        public static float recoil = 3f;
+        public static float recoil = 1.5f;
         public static float range = 256f;
         public static GameObject tracerEffectPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/Tracers/TracerGoldGat");
 
@@ -60,14 +60,14 @@ namespace JunkerMod.Survivors.Queen.SkillStates.ShotgunSkills
             {
                 hasFired = true;
 
-                characterBody.AddSpreadBloom(1.5f);
+                characterBody.AddSpreadBloom(4.2f);
                 EffectManager.SimpleMuzzleFlash(EntityStates.Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, gameObject, muzzleString, false);
                 Util.PlaySound("HenryShootPistol", gameObject);
 
                 if (isAuthority)
                 {
                     Ray aimRay = GetAimRay();
-                    AddRecoil(-1f * recoil, -2f * recoil, -0.5f * recoil, 0.5f * recoil);
+                    AddRecoil(-2f * recoil, -4f * recoil, -1f * recoil, 1.5f * recoil);
 
                     new BulletAttack
                     {

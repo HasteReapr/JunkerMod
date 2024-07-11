@@ -21,7 +21,7 @@ namespace JunkerMod.Survivors.Queen.SkillStates
             //0-1 multiplier of baseduration, used to time when the hitbox is out (usually based on the run time of the animation)
             //for example, if attackStartPercentTime is 0.5, the attack will start hitting halfway through the ability. if baseduration is 3 seconds, the attack will start happening at 1.5 seconds
             attackStartPercentTime = 0.6f;
-            attackEndPercentTime = 0.8f;
+            attackEndPercentTime = 0.7f;
 
             //this is the point at which the attack can be interrupted by itself, continuing a combo
             earlyExitPercentTime = 1;

@@ -1,9 +1,13 @@
 ﻿using RoR2;
 using UnityEngine;
+using Unity;
 using JunkerMod.Modules;
 using System;
 using RoR2.Projectile;
 using JunkerMod.Survivors.Queen.Components;
+using R2API;
+using UnityEngine.UI;
+using RoR2.UI;
 
 namespace JunkerMod.Survivors.Queen
 {
@@ -14,6 +18,9 @@ namespace JunkerMod.Survivors.Queen
         public static GameObject swordHitImpactEffect;
 
         public static GameObject bombExplosionEffect;
+
+        //crosshair
+        public static GameObject queenCrosshair;
 
         // networked hit sounds
         public static NetworkSoundEventDef swordHitSoundEvent;
@@ -34,6 +41,8 @@ namespace JunkerMod.Survivors.Queen
             CreateEffects();
 
             CreateProjectiles();
+
+            CreateCrosshair();
         }
 
         #region effects
@@ -106,5 +115,12 @@ namespace JunkerMod.Survivors.Queen
             bombController.startSound = "";
         }
         #endregion projectiles
+
+        #region crosshair
+        private static void CreateCrosshair()
+        {
+            
+        }
+        #endregion
     }
 }

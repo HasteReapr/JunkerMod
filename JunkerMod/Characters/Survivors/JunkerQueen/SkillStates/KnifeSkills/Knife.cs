@@ -4,6 +4,7 @@ using JunkerMod.Survivors.Queen.Components;
 using RoR2;
 using RoR2.Projectile;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
 {
@@ -53,18 +54,26 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
             }
         }
 
+        [Command]
+        public void YoinkKnife()
+        {
+            YoinkithKnifeth();
+        }
+
+        [ClientRpc]
+        public void YoinkithKnifeth()
+        {
+            knifeProjectile.GetComponent<QueenKnifeComponent>().PrematureCall();
+        }
+
         public override void FixedUpdate()
         {
             base.FixedUpdate();
 
-            // if we press our utility button again, recall the knife.
-            if (inputBank.skill2.justPressed && fixedAge >= 0.2f && hasFired && isAuthority)
+            // if we press our button again, recall the knife.
+            if (inputBank.skill2.justPressed && fixedAge >= 0.2f && hasFired && NetworkServer.active)
             {
-                //gameObject.BroadcastMessage("KnifeComethToMe");
-                knifeProjectile.GetComponent<QueenKnifeComponent>().hasStuck = true;
-                knifeProjectile.GetComponent<QueenKnifeComponent>().returnKnife = true;
-                knifeProjectile.GetComponent<QueenKnifeComponent>().stuckTime = 5;
-                knifeProjectile.gameObject.layer = 13; //13 is debris, 14 is projectile.
+                YoinkKnife();
             }
 
             if (fixedAge >= fireTime && !hasFired)

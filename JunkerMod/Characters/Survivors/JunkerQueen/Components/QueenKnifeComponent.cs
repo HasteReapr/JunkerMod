@@ -40,28 +40,45 @@ namespace JunkerMod.Survivors.Queen.Components
             if (hasStuck && stuckTime <= MAX_STICK_TIME)
             {
                 stuckTime += Time.fixedDeltaTime;
+            }
+
+            // weve counted up enough, time to start returning
+            if(hasStuck && stuckTime >= MAX_STICK_TIME && !returnKnife)
+            {
                 //if we have server authority, we grab the victim gameobject
                 if (hasAuthority)
                 {
                     stuckVictim = base.GetComponent<ProjectileStickOnImpact>().victim;
                 }
-            }
-
-            // weve counted up enough, time to start returning
-            if(hasStuck && stuckTime >= MAX_STICK_TIME)
-            {
-                returnKnife = true;
-                // We disable our collider, stickonimpact, and change our layer to debris, then enable overlap attack
-                base.GetComponent<SphereCollider>().enabled = false;
-                base.GetComponent<ProjectileStickOnImpact>().enabled = false;
-                this.gameObject.layer = 13; //13 is debris, 14 is projectile.
-                base.GetComponent<ProjectileOverlapAttack>().enabled = true;
+                PreRecall();
             }
 
             if (returnKnife && hasStuck)
             {
                 Recall();
             }
+        }
+
+        public void PreRecall()
+        {
+            returnKnife = true;
+            // We disable our collider, stickonimpact, and change our layer to debris, then enable overlap attack
+            base.GetComponent<SphereCollider>().enabled = false;
+            base.GetComponent<ProjectileStickOnImpact>().enabled = false;
+            base.GetComponent<Rigidbody>().useGravity = false;
+            this.gameObject.layer = 13; //13 is debris, 14 is projectile.
+            base.GetComponent<ProjectileOverlapAttack>().enabled = true;
+            //base.GetComponent<HitBoxGroup>().enabled = true;
+        }
+
+        
+        [Server]
+        public void PrematureCall()
+        {
+            hasStuck = true;
+            stuckTime = 5;
+            returnKnife = true;
+            PreRecall();
         }
 
         //move our velocity to the player
@@ -71,6 +88,7 @@ namespace JunkerMod.Survivors.Queen.Components
             if(Vector3.Distance(returnPos, base.transform.position) > 1f)
             {
                 base.transform.position += (returnPos - base.transform.position).normalized * SPEED * Time.deltaTime;
+                base.GetComponent<ProjectileSimple>().desiredForwardSpeed = 0;
                 // we also drag the victim along with the knife
                 if (stuckVictim) DragVictim();
             }

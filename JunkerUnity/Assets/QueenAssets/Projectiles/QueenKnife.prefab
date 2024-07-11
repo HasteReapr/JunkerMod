@@ -25,14 +25,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 89793344013919093}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 6489594318485665838}
   m_Father: {fileID: 1179513177011710951}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
 --- !u!114 &89793344013919099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,12 +123,12 @@ GameObject:
   - component: {fileID: 1179513177011710952}
   - component: {fileID: 1179513177011710963}
   - component: {fileID: 1179513177011710956}
+  - component: {fileID: 5684034679921800403}
   - component: {fileID: 1179513177011710957}
   - component: {fileID: 1179513177011710958}
   - component: {fileID: 1179513177011710959}
   - component: {fileID: 7421286695364990047}
   - component: {fileID: 4794691317928612455}
-  - component: {fileID: 5684034679921800403}
   m_Layer: 14
   m_Name: QueenKnife
   m_TagString: Untagged
@@ -143,15 +143,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1179513177011710944}
-  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 753458203816409551}
   - {fileID: 2440050059416570487}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1179513177011710953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,7 +219,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -263,10 +263,10 @@ MonoBehaviour:
   m_Script: {fileID: -1819008361, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 20
+  lifetime: 10
   lifetimeExpiredEffect: {fileID: 0}
-  desiredForwardSpeed: 160
-  updateAfterFiring: 0
+  desiredForwardSpeed: 0
+  updateAfterFiring: 1
   enableVelocityOverLifetime: 0
   velocityOverLifetime:
     serializedVersion: 2
@@ -326,6 +326,28 @@ MonoBehaviour:
   impactEffect: {fileID: 0}
   hitSoundString: Play_bandit2_m2_impact
   enemyHitSoundString: Play_bandit2_m2_impact
+--- !u!114 &5684034679921800403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179513177011710944}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -899414464, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageCoefficient: 2.5
+  impactEffect: {fileID: 0}
+  forceVector: {x: 0, y: 0, z: 0}
+  overlapProcCoefficient: 1
+  maximumOverlapTargets: 1
+  onServerHit:
+    m_PersistentCalls:
+      m_Calls: []
+  fireFrequency: 0
+  resetInterval: -1
 --- !u!114 &1179513177011710957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,28 +459,6 @@ MonoBehaviour:
   groupName: 
   hitBoxes:
   - {fileID: 0}
---- !u!114 &5684034679921800403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1179513177011710944}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -899414464, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageCoefficient: 2.5
-  impactEffect: {fileID: 0}
-  forceVector: {x: 0, y: 0, z: 0}
-  overlapProcCoefficient: 1
-  maximumOverlapTargets: 1
-  onServerHit:
-    m_PersistentCalls:
-      m_Calls: []
-  fireFrequency: 0
-  resetInterval: -1
 --- !u!1 &2787800336571627127
 GameObject:
   m_ObjectHideFlags: 0

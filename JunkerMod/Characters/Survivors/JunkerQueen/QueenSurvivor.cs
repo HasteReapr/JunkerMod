@@ -44,7 +44,7 @@ namespace JunkerMod.Survivors.Queen
             bodyColor = Color.white,
             sortPosition = 100,
 
-            crosshair = Assets.LoadCrosshair("BanditCrosshair"),
+            crosshair = Assets.LoadCrosshair("Bandit"),
             podPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod"),
 
             maxHealth = 150f,
