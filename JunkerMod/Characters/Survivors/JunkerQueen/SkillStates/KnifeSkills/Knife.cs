@@ -20,6 +20,7 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
         private bool hasFired = false;
         private float firePercentTime = 0.0f;
         private float fireTime;
+        private float recallTime;
         private float duration = 1f;
         private Ray aimRay;
 
@@ -30,6 +31,7 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
             PlayAnimation("LeftArm, Override", "ShootGun", "ShootGun.playbackRate", 1.8f);
             duration = baseDuration / attackSpeedStat;
             fireTime = firePercentTime * duration;
+            recallTime = fireTime + 0.1f;
             knifeReturned = false;
         }
 
@@ -47,7 +49,7 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
                     crit = characterBody.RollCrit(),
                     rotation = Util.QuaternionSafeLookRotation(aimRay.direction),
                     projectilePrefab = QueenAssets.queenKnife,
-                    speedOverride = 128,
+                    //speedOverride = 128,
                     damageTypeOverride = DamageType.BleedOnHit,
                 };
                 ProjectileManager.instance.FireProjectile(info);
@@ -57,6 +59,11 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
         [Command]
         public void YoinkKnife()
         {
+            if (!knifeProjectile)
+            {
+                knifeReturned = true;
+            }
+
             if (knifeProjectile.GetComponent<QueenKnifeComponent>().parent == this.gameObject)
             {
                 knifeProjectile.GetComponent<QueenKnifeComponent>().PrematureCall();
@@ -64,9 +71,17 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
         }
 
         [ClientRpc]
-        public void YoinkithKnifeth()
+        public void ServerYoinkKnife()
         {
-            YoinkKnife();
+            if (!knifeProjectile)
+            {
+                knifeReturned = true;
+            }
+
+            if (knifeProjectile.GetComponent<QueenKnifeComponent>().parent == this.gameObject)
+            {
+                knifeProjectile.GetComponent<QueenKnifeComponent>().PrematureCall();
+            }
         }
 
         public override void FixedUpdate()
@@ -74,20 +89,28 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
             base.FixedUpdate();
 
             // if we press our button again, recall the knife.
-            if (inputBank.skill2.justPressed && fixedAge >= 0.2f && hasFired && isAuthority)
+            if (isAuthority)
             {
-                YoinkithKnifeth();
-            }
+                if (inputBank && inputBank.skill2.justPressed && fixedAge >= recallTime && hasFired)
+                {
+                    YoinkKnife();
+                    
+                    if (NetworkServer.active)
+                    {
+                        ServerYoinkKnife();
+                    }
+                }
 
-            if (fixedAge >= fireTime && !hasFired && isAuthority)
-            {
-                Shoot();
-            }
+                if (fixedAge >= fireTime && !hasFired)
+                {
+                    Shoot();
+                }
 
-            if (fixedAge >= duration && isAuthority && knifeReturned)
-            {
-                outer.SetNextStateToMain();
-                return;
+                if (fixedAge >= duration && knifeReturned)
+                {
+                    outer.SetNextStateToMain();
+                    return;
+                }
             }
         }
 

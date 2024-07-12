@@ -46,17 +46,13 @@ namespace JunkerMod.Survivors.Queen.Components
             // weve counted up enough, time to start returning
             if(hasStuck && stuckTime >= MAX_STICK_TIME && !returnKnife)
             {
-                //if we have server authority, we grab the victim gameobject
-                if (hasAuthority)
-                {
-                    stuckVictim = base.GetComponent<ProjectileStickOnImpact>().victim;
-                }
                 PreRecall();
             }
 
             if (returnKnife && hasStuck)
             {
                 Recall();
+                ServerRecall();
             }
         }
 
@@ -67,19 +63,58 @@ namespace JunkerMod.Survivors.Queen.Components
             base.GetComponent<SphereCollider>().enabled = false;
             base.GetComponent<ProjectileStickOnImpact>().enabled = false;
             base.GetComponent<Rigidbody>().useGravity = false;
+            //base.GetComponent<Rigidbody>().isKinematic = true;
             this.gameObject.layer = 13; //13 is debris, 14 is projectile.
             base.GetComponent<ProjectileOverlapAttack>().enabled = true;
             //base.GetComponent<HitBoxGroup>().enabled = true;
         }
 
-        
+        [Command]
+        private void CmdPreRecall()
+        {
+            RpcPreRecall();
+        }
+
+        [ClientRpc]
+        private void RpcPreRecall()
+        {
+            // We disable our collider, stickonimpact, and change our layer to debris, then enable overlap attack
+            base.GetComponent<SphereCollider>().enabled = false;
+            base.GetComponent<ProjectileStickOnImpact>().enabled = false;
+            base.GetComponent<Rigidbody>().useGravity = false;
+            //base.GetComponent<Rigidbody>().isKinematic = true;
+            this.gameObject.layer = 13; //13 is debris, 14 is projectile.
+            base.GetComponent<ProjectileOverlapAttack>().enabled = true;
+            //base.GetComponent<HitBoxGroup>().enabled = true;
+        }
+
         [Server]
         public void PrematureCall()
         {
             hasStuck = true;
             stuckTime = 5;
             returnKnife = true;
-            PreRecall();
+            if (NetworkServer.active)
+            {
+                CmdSyncRecall();
+            }
+            else
+                PreRecall();
+        }
+
+        [Command]
+        private void CmdSyncRecall()
+        {
+            RpcRecall(true, 5, true);
+            CmdPreRecall();
+        }
+
+        [ClientRpc]
+        private void RpcRecall(bool stuck, float time, bool ret)
+        {
+            hasStuck = true;
+            stuckTime = 5;
+            returnKnife = true;
         }
 
         //move our velocity to the player
@@ -87,6 +122,29 @@ namespace JunkerMod.Survivors.Queen.Components
         {
             Vector3 returnPos = parent.transform.position;
             if(Vector3.Distance(returnPos, base.transform.position) > 1f)
+            {
+                base.transform.position += (returnPos - base.transform.position).normalized * SPEED * Time.deltaTime;
+                base.GetComponent<ProjectileSimple>().desiredForwardSpeed = 0;
+                // we also drag the victim along with the knife
+                if (stuckVictim) DragVictim();
+            }
+            else
+            {
+                if (parentESM.state is Knife knifeState)
+                {
+                    knifeState.knifeReturned = true;
+                }
+                Destroy(this.gameObject);
+            }
+        }
+
+        [Server]
+        private void ServerRecall()
+        {
+            if (!NetworkServer.active) return;
+
+            Vector3 returnPos = parent.transform.position;
+            if (Vector3.Distance(returnPos, base.transform.position) > 1f)
             {
                 base.transform.position += (returnPos - base.transform.position).normalized * SPEED * Time.deltaTime;
                 base.GetComponent<ProjectileSimple>().desiredForwardSpeed = 0;

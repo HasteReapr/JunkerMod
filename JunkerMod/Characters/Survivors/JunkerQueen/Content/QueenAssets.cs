@@ -8,6 +8,8 @@ using JunkerMod.Survivors.Queen.Components;
 using R2API;
 using UnityEngine.UI;
 using RoR2.UI;
+using UnityEngine.Networking;
+using R2API.Utils;
 
 namespace JunkerMod.Survivors.Queen
 {
@@ -85,6 +87,13 @@ namespace JunkerMod.Survivors.Queen
 
             queenKnife = _assetBundle.LoadAsset<GameObject>("QueenKnife");
             queenKnife.AddComponent<QueenKnifeComponent>();
+
+            var networkIdentity = queenKnife.GetComponent<NetworkIdentity>();
+            if (networkIdentity)
+            {
+                networkIdentity.SetFieldValue("m_AssetId", NetworkHash128.Parse("0176acd452adc181"));
+            }
+
             Content.AddProjectilePrefab(queenKnife);
         }
 
