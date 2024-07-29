@@ -26,8 +26,8 @@ namespace JunkerMod.Survivors.Queen
         public override string masterName => "QueenMonsterMaster"; //if you do not
 
         //the names of the prefabs you set up in unity that we will use to build your character
-        public override string modelPrefabName => "mdlHenry"; //mdlQueen
-        public override string displayPrefabName => "henryDisplay"; // queenDisplay
+        public override string modelPrefabName => "mdlQueen"; //mdlQueen
+        public override string displayPrefabName => "queenDisplay"; // queenDisplay
 
         public const string QUEEN_PREFIX = JunkerPlugin.DEVELOPER_PREFIX + "_QUEEN_";
 
@@ -60,7 +60,7 @@ namespace JunkerMod.Survivors.Queen
                 new CustomRendererInfo
                 {
                     childName = "SwordModel",
-                    material = assetBundle.LoadMaterial("matHenry"),
+                    material = assetBundle.LoadMaterial("matHard"),
                 },
                 new CustomRendererInfo
                 {
@@ -130,7 +130,7 @@ namespace JunkerMod.Survivors.Queen
         public void AddHitboxes()
         {
             //example of how to create a HitBoxGroup. see summary for more details
-            Prefabs.SetupHitBoxGroup(characterModelObject, "SwordGroup", "SwordHitbox");
+            Prefabs.SetupHitBoxGroup(characterModelObject, "AxeGroup", "AxeHitbox");
         }
 
         public override void InitializeEntityStateMachines() 

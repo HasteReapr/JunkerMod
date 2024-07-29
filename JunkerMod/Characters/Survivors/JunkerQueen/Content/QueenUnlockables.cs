@@ -11,10 +11,10 @@ namespace JunkerMod.Survivors.Queen
 
         public static void Init()
         {
-            masterySkinUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(
+            /*masterySkinUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(
                 HenryMasteryAchievement.unlockableIdentifier,
                 Modules.Tokens.GetAchievementNameToken(HenryMasteryAchievement.identifier),
-                QueenSurvivor.instance.assetBundle.LoadAsset<Sprite>("texMasteryAchievement"));
+                QueenSurvivor.instance.assetBundle.LoadAsset<Sprite>("texMasteryAchievement"));*/
         }
     }
 }

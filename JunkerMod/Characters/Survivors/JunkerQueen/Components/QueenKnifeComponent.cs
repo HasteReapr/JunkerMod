@@ -37,6 +37,8 @@ namespace JunkerMod.Survivors.Queen.Components
 
         public void FixedUpdate()
         {
+            UpdateState();
+
             // once we stick, start to count up, once we count up enough activate the return
             if (hasStuck && stuckTime <= MAX_STICK_TIME)
             {
@@ -52,7 +54,17 @@ namespace JunkerMod.Survivors.Queen.Components
             if (returnKnife && hasStuck)
             {
                 Recall();
-                ServerRecall();
+            }
+        }
+
+        // All this does is check if the state changed to the knifePull state, then it does the knifepull
+        public void UpdateState()
+        {
+            if (parentESM.state is KnifePull knifeState)
+            {
+                knifeState.knifeReturned = false;
+                knifeState.knifeProjectile = this.gameObject;
+                this.PrematureCall();
             }
         }
 
@@ -69,52 +81,12 @@ namespace JunkerMod.Survivors.Queen.Components
             //base.GetComponent<HitBoxGroup>().enabled = true;
         }
 
-        [Command]
-        private void CmdPreRecall()
-        {
-            RpcPreRecall();
-        }
-
-        [ClientRpc]
-        private void RpcPreRecall()
-        {
-            // We disable our collider, stickonimpact, and change our layer to debris, then enable overlap attack
-            base.GetComponent<SphereCollider>().enabled = false;
-            base.GetComponent<ProjectileStickOnImpact>().enabled = false;
-            base.GetComponent<Rigidbody>().useGravity = false;
-            //base.GetComponent<Rigidbody>().isKinematic = true;
-            this.gameObject.layer = 13; //13 is debris, 14 is projectile.
-            base.GetComponent<ProjectileOverlapAttack>().enabled = true;
-            //base.GetComponent<HitBoxGroup>().enabled = true;
-        }
-
-        [Server]
         public void PrematureCall()
         {
             hasStuck = true;
             stuckTime = 5;
             returnKnife = true;
-            if (NetworkServer.active)
-            {
-                CmdSyncRecall();
-            }
-            else
-                PreRecall();
-        }
-
-        [Command]
-        private void CmdSyncRecall()
-        {
-            RpcRecall(true, 5, true);
-            CmdPreRecall();
-        }
-
-        [ClientRpc]
-        private void RpcRecall(bool stuck, float time, bool ret)
-        {
-            hasStuck = true;
-            stuckTime = 5;
-            returnKnife = true;
+            PreRecall();
         }
 
         //move our velocity to the player
@@ -130,29 +102,10 @@ namespace JunkerMod.Survivors.Queen.Components
             }
             else
             {
-                if (parentESM.state is Knife knifeState)
+                if (parentESM.state is KnifePull knifePullState)
                 {
-                    knifeState.knifeReturned = true;
+                    knifePullState.knifeReturned = true;
                 }
-                Destroy(this.gameObject);
-            }
-        }
-
-        [Server]
-        private void ServerRecall()
-        {
-            if (!NetworkServer.active) return;
-
-            Vector3 returnPos = parent.transform.position;
-            if (Vector3.Distance(returnPos, base.transform.position) > 1f)
-            {
-                base.transform.position += (returnPos - base.transform.position).normalized * SPEED * Time.deltaTime;
-                base.GetComponent<ProjectileSimple>().desiredForwardSpeed = 0;
-                // we also drag the victim along with the knife
-                if (stuckVictim) DragVictim();
-            }
-            else
-            {
                 if (parentESM.state is Knife knifeState)
                 {
                     knifeState.knifeReturned = true;
@@ -179,6 +132,10 @@ namespace JunkerMod.Survivors.Queen.Components
 
         public void OnDestroy()
         {
+            if (parentESM.state is KnifePull knifePullState)
+            {
+                knifePullState.knifeReturned = true;
+            }
             if (parentESM.state is Knife knifeState)
             {
                 knifeState.knifeReturned = true;

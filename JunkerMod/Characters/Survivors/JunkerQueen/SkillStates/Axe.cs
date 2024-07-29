@@ -9,7 +9,7 @@ namespace JunkerMod.Survivors.Queen.SkillStates
     {
         public override void OnEnter()
         {
-            hitboxGroupName = "SwordGroup";
+            hitboxGroupName = "AxeGroup";
 
             damageType = DamageType.BleedOnHit;
             damageCoefficient = QueenStaticValues.axeDamageCoefficient;

@@ -70,20 +70,6 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
             }
         }
 
-        [ClientRpc]
-        public void ServerYoinkKnife()
-        {
-            if (!knifeProjectile)
-            {
-                knifeReturned = true;
-            }
-
-            if (knifeProjectile.GetComponent<QueenKnifeComponent>().parent == this.gameObject)
-            {
-                knifeProjectile.GetComponent<QueenKnifeComponent>().PrematureCall();
-            }
-        }
-
         public override void FixedUpdate()
         {
             base.FixedUpdate();
@@ -93,12 +79,8 @@ namespace JunkerMod.Survivors.Queen.SkillStates.KnifeSkills
             {
                 if (inputBank && inputBank.skill2.justPressed && fixedAge >= recallTime && hasFired)
                 {
-                    YoinkKnife();
-                    
-                    if (NetworkServer.active)
-                    {
-                        ServerYoinkKnife();
-                    }
+                    //YoinkKnife();
+                    outer.SetNextState(new KnifePull());
                 }
 
                 if (fixedAge >= fireTime && !hasFired)

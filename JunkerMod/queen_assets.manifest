@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1080731062
+CRC: 4000678004
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: a02055152f718beadf9aea3bcae9804f
+    Hash: b42e9d5c8d26eada0d8818467263b775
   TypeTreeHash:
     serializedVersion: 2
-    Hash: df4621619fe9605cde8e6af516ea2142
+    Hash: 5ef40950146875ef22071c92930082b3
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -40,11 +40,15 @@ ClassTypes:
 - Class: 108
   Script: {instanceID: 0}
 - Class: 114
+  Script: {fileID: 1143142494, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: 372142912, guid: d382a022563c7517aadbc92ca1060016, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: a63dc2c00bc45234bab375db0c723d96, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 50213d3126f9b2a45ae3b0a558547f80, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 928f8154c2afeb749ad29721e5499bbd, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 68ee60b5bcd2668489cac0473619dffe, type: 3}
 - Class: 114
@@ -107,8 +111,8 @@ Assets:
 - Assets/HenryAssets/HenryBundle/Icons/texPrimaryIcon.png
 - Assets/HenryAssets/HenryBundle/VFX/Textures/texHenrySwing2.png
 - Assets/HenryAssets/HenryBundle/Icons/texBazookaIcon.png
+- Assets/QueenAssets/Mesh/Wastelander RoR2.fbx
 - Assets/HenryAssets/HenryBundle/Icons/texMasteryAchievement.png
-- Assets/QueenAssets/Textures/Eye.tga
 - Assets/QueenAssets/Animation/maskGesture.mask
 - Assets/HenryAssets/HenryBundle/Mesh/meshHenry.mesh
 - Assets/HenryAssets/HenryBundle/HenryDisplay.prefab
@@ -120,15 +124,15 @@ Assets:
 - Assets/HenryAssets/HenryBundle/Icons/texPassiveIcon.png
 - Assets/HenryAssets/HenryBundle/VFX/Textures/texFire.tga
 - Assets/HenryAssets/HenryBundle/Animation/clips/Jump.anim
+- Assets/QueenAssets/Models/mdlQueen.prefab
 - Assets/HenryAssets/HenryBundle/Mesh/meshHenryNeo.mesh
 - Assets/QueenAssets/Animation/clips/WalkR.anim
 - Assets/HenryAssets/HenryBundle/Animation/clips/WalkR.anim
 - Assets/HenryAssets/HenryBundle/VFX/HenryDustEffect.prefab
 - Assets/HenryAssets/HenryBundle/Animation/clips/SprintL.anim
 - Assets/HenryAssets/HenryBundle/Materials/matRebellion.mat
-- Assets/QueenAssets/Materials/Axe.mat
+- Assets/QueenAssets/Materials/matHard.mat
 - Assets/HenryAssets/HenryBundle/VFX/Materials/matSmoke.mat
-- Assets/QueenAssets/Textures/Hair Diffuse.tga
 - Assets/HenryAssets/HenryBundle/VFX/Textures/texSwingEffect.png
 - Assets/HenryAssets/HenryBundle/Textures/texBoxingGlove.png
 - Assets/HenryAssets/HenryBundle/Animation/maskAimYaw.mask
@@ -136,7 +140,6 @@ Assets:
 - Assets/QueenAssets/Animation/clips/MenuIdle.anim
 - Assets/HenryAssets/HenryBundle/Icons/texSecondaryIcon.png
 - Assets/HenryAssets/HenryBundle/Animation/animHenry.controller
-- Assets/QueenAssets/Textures/Fishnets Normal.tga
 - Assets/HenryAssets/HenryBundle/VFX/Materials/matHenrySwing2.mat
 - Assets/HenryAssets/HenryBundle/Textures/texBazooka.png
 - Assets/QueenAssets/Animation/clips/Slash2.anim
@@ -150,6 +153,7 @@ Assets:
 - Assets/HenryAssets/HenryBundle/Mesh/meshVergil.mesh
 - Assets/HenryAssets/HenryBundle/VFX/Textures/texFistSwing.png
 - Assets/QueenAssets/Animation/animQueenMenu.controller
+- Assets/QueenAssets/Materials/matSoft.mat
 - Assets/HenryAssets/HenryBundle/Animation/clips/LightImpact.anim
 - Assets/HenryAssets/HenryBundle/Icons/texHenryAchievement.png
 - Assets/HenryAssets/HenryBundle/Animation/clips/WalkB.anim
@@ -159,6 +163,7 @@ Assets:
 - Assets/HenryAssets/HenryBundle/Animation/maskGesture.mask
 - Assets/HenryAssets/HenryBundle/VFX/Materials/matPunchImpact.mat
 - Assets/HenryAssets/HenryBundle/Mesh/meshHenryAlt.mesh
+- Assets/QueenAssets/Models/queenDisplay.prefab
 - Assets/QueenAssets/Animation/clips/Descend.anim
 - Assets/HenryAssets/HenryBundle/Textures/texHenryJedi.png
 - Assets/HenryAssets/HenryBundle/Animation/clips/SprintR.anim
@@ -172,9 +177,8 @@ Assets:
 - Assets/HenryAssets/HenryBundle/Animation/maskImpact.mask
 - Assets/QueenAssets/Animation/animQueen.controller
 - Assets/QueenAssets/Animation/clips/Idle.anim
-- Assets/QueenAssets/Textures/Skin Diffuse.tga
 - Assets/HenryAssets/HenryBundle/Animation/clips/Idle.anim
-- Assets/QueenAssets/Textures/Shotgun 2 Diffuse.tga
+- Assets/QueenAssets/Textures/Wastelander RoR2_Hard_MaskMap.png
 - Assets/HenryAssets/HenryBundle/VFX/BombExplosionEffect.prefab
 - Assets/HenryAssets/HenryBundle/Animation/clips/Slash2.anim
 - Assets/HenryAssets/HenryBundle/Mesh/meshYamato.mesh
@@ -186,19 +190,16 @@ Assets:
 - Assets/HenryAssets/HenryBundle/VFX/Materials/matPunchImpactShadow.mat
 - Assets/HenryAssets/HenryBundle/Materials/matDante.mat
 - Assets/HenryAssets/HenryBundle/Animation/maskLeftArm.mask
-- Assets/QueenAssets/Textures/Shotgun 2 Normal.tga
 - Assets/HenryAssets/HenryBundle/Mesh/MeshHenryGun.mesh
 - Assets/QueenAssets/Animation/maskBandana.mask
 - Assets/HenryAssets/HenryBundle/Animation/clips/DescendFast.anim
 - Assets/HenryAssets/HenryBundle/HenryBazookaRocketGhost.prefab
 - Assets/HenryAssets/HenryBundle/Icons/texScepterSpecialIcon.png
 - Assets/HenryAssets/HenryBundle/VFX/Materials/matFistSwing.mat
-- Assets/QueenAssets/Mesh/mdlQueen.fbx
 - Assets/HenryAssets/HenryBundle/Mesh/meshDante.mesh
 - Assets/HenryAssets/HenryBundle/VFX/Materials/matTrail.mat
 - Assets/HenryAssets/HenryBundle/Materials/matHenryJedi.mat
 - Assets/HenryAssets/HenryBundle/VFX/Materials/matHitSpark.mat
-- Assets/QueenAssets/Textures/Shotgun Diffuse.tga
 - Assets/HenryAssets/HenryBundle/Mesh/meshNeoCoat.mesh
 - Assets/HenryAssets/HenryBundle/Animation/clips/ShootGun.anim
 - Assets/QueenAssets/Animation/clips/DefaultPose.anim
@@ -209,14 +210,11 @@ Assets:
 - Assets/HenryAssets/HenryBundle/Textures/texHenry.png
 - Assets/HenryAssets/HenryBundle/Icons/texBazookaOutIcon.png
 - Assets/HenryAssets/HenryBundle/Animation/maskAimPitch.mask
-- Assets/QueenAssets/Materials/Skin.mat
 - Assets/HenryAssets/HenryBundle/Icons/texUziIcon.png
 - Assets/HenryAssets/HenryBundle/Materials/matHenryNeo.mat
 - Assets/HenryAssets/HenryBundle/VFX/Mesh/meshPunchShockwave.mesh
 - Assets/HenryAssets/HenryBundle/Materials/matRoy.mat
 - Assets/HenryAssets/HenryBundle/Icons/texBazookaIconScepter.png
-- Assets/QueenAssets/Materials/Eye.mat
-- Assets/QueenAssets/Models/mdlQueen.prefab
 - Assets/HenryAssets/HenryBundle/Textures/texHenryNeo.png
 - Assets/HenryAssets/HenryBundle/Icons/texMainSkin.png
 - Assets/HenryAssets/HenryBundle/Icons/texBoxingGlovesIcon.png
@@ -233,16 +231,16 @@ Assets:
 - Assets/HenryAssets/HenryBundle/Animation/clips/Ascend.anim
 - Assets/HenryAssets/HenryBundle/VFX/Materials/matPunchEffect.mat
 - Assets/HenryAssets/HenryBundle/VFX/Textures/texPunchImpact.png
+- Assets/QueenAssets/Textures/Wastelander RoR2_Soft_MaskMap.png
 - Assets/HenryAssets/HenryBundle/mdlHenry.prefab
 - Assets/HenryAssets/HenryBundle/Mesh/meshRebellion.mesh
 - Assets/QueenAssets/Animation/clips/AimYaw.anim
 - Assets/HenryAssets/HenryBundle/VFX/Materials/matHitSparkPunch.mat
 - Assets/QueenAssets/Animation/clips/AimPitch.anim
-- Assets/QueenAssets/Materials/Shotgun.mat
 - Assets/HenryAssets/HenryBundle/VFX/Materials/matSwingEffect.mat
 - Assets/QueenAssets/Animation/clips/IdleIn.anim
 - Assets/QueenAssets/Animation/clips/Slash1.anim
-- Assets/QueenAssets/Textures/Aussie Normal.tga
+- Assets/QueenAssets/Textures/Wastelander RoR2_Hard_Normal.png
 - Assets/HenryAssets/HenryBundle/Mesh/meshHenrySword.mesh
 - Assets/HenryAssets/HenryBundle/VFX/Materials/matEmbers.mat
 - Assets/HenryAssets/HenryBundle/Animation/clips/AimYaw.anim
@@ -256,7 +254,6 @@ Assets:
 - Assets/HenryAssets/HenryBundle/Textures/texHenryVergil.png
 - Assets/HenryAssets/HenryBundle/Mesh/meshUzi.mesh
 - Assets/HenryAssets/HenryBundle/VFX/Materials/matSlash.mat
-- Assets/QueenAssets/Models/queenDisplay.prefab
 - Assets/HenryAssets/HenryBundle/Icons/texPistolIcon.png
 - Assets/HenryAssets/HenryBundle/VFX/Materials/matDust.mat
 - Assets/HenryAssets/HenryBundle/VFX/Textures/texSmoke.png
@@ -265,7 +262,6 @@ Assets:
 - Assets/HenryAssets/HenryBundle/Mesh/meshVergilCoat.mesh
 - Assets/HenryAssets/HenryBundle/VFX/Textures/texLightning.tif
 - Assets/HenryAssets/HenryBundle/Animation/clips/RestIdleIn.anim
-- Assets/QueenAssets/Materials/Hair.mat
 - Assets/HenryAssets/HenryBundle/VFX/Materials/matRipple.mat
 - Assets/HenryAssets/HenryBundle/Animation/clips/DefaultPose.anim
 - Assets/HenryAssets/HenryBundle/Materials/matShotgun.mat
@@ -275,17 +271,16 @@ Assets:
 - Assets/HenryAssets/HenryBundle/Icons/texBazookaFireIcon.png
 - Assets/HenryAssets/HenryBundle/VFX/Materials/matFire.mat
 - Assets/QueenAssets/Animation/clips/WalkB.anim
-- Assets/QueenAssets/Textures/Skin Normal.tga
 - Assets/HenryAssets/HenryBundle/Icons/texGrandMasteryAchievement.png
-- Assets/QueenAssets/Materials/Knife.mat
 - Assets/HenryAssets/HenryBundle/Animation/maskBandana.mask
 - Assets/HenryAssets/HenryBundle/Animation/clips/MenuIdle.anim
-- Assets/QueenAssets/Textures/Aussie Diffuse.tga
 - Assets/HenryAssets/HenryBundle/Materials/matBazooka.mat
-- Assets/QueenAssets/Textures/Fishnets Diffuse.tga
 - Assets/HenryAssets/HenryBundle/VFX/HenrySwordSwingEffect.prefab
 - Assets/HenryAssets/HenryBundle/Animation/clips/Descend.anim
 - Assets/HenryAssets/HenryBundle/Textures/texHenryDante.png
+- Assets/QueenAssets/Textures/Wastelander RoR2_Soft_BaseMap.png
+- Assets/QueenAssets/Textures/Wastelander RoR2_Hard_BaseMap.png
+- Assets/QueenAssets/Textures/Wastelander RoR2_Soft_Normal.png
 - Assets/QueenAssets/Animation/clips/Jump.anim
 - Assets/HenryAssets/HenryBundle/Animation/clips/AimPitch.anim
 - Assets/HenryAssets/HenryBundle/VFX/Textures/texSlash.png
@@ -293,7 +288,6 @@ Assets:
 - Assets/HenryAssets/HenryBundle/Textures/texHenryDanteEmission.png
 - Assets/HenryAssets/HenryBundle/Animation/clips/MenuIdleIn.anim
 - Assets/HenryAssets/HenryBundle/VFX/ImpactHenryPunch.prefab
-- Assets/QueenAssets/Textures/Shotgun Normal.tga
 - Assets/HenryAssets/HenryBundle/Animation/clips/Slash1.anim
 - Assets/HenryAssets/HenryBundle/VFX/HenryBazookaExplosionEffect.prefab
 - Assets/HenryAssets/HenryBundle/Animation/clips/Roll.anim
